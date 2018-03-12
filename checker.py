@@ -24,7 +24,6 @@ def test(message):
 	print(corr, len(corr))
 	if not corr: return
 	text=message.text
-	print(text)
 	for cor in corr:
 		print(cor["word"],cor["s"][0])
 		text.replace(cor["word"],cor["s"][0])
