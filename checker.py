@@ -17,16 +17,12 @@ def help(message):
 
 @bot.message_handler(commands=["test"])
 def test(message):
-	print("test")
 	param={"lang":"ru,en,uk", "text": message.text}
-	print(param, message)
 	corr = requests.post(url+"/checkText", data=param).json()
-	print(corr, len(corr))
 	if not corr: return
 	text=message.text
 	for cor in corr:
-		print(cor["word"],cor["s"][0])
-		text.replace(cor["word"],cor["s"][0])
+		text=text.replace(cor["word"],cor["s"][0])
 	bot.send_message(message.chat.id, text)
 
 @bot.message_handler(func=lambda message: True)
@@ -36,7 +32,7 @@ def checker(message):
 	if not corr: return
 	text=message.text
 	for cor in corr:
-		text.replace(cor["word"],cor["s"][0])
+		text=text.replace(cor["word"],cor["s"][0])
 	bot.send_message(message.chat.id, text)
 
 #Дальнейший код используется для установки удаления вебхуков
