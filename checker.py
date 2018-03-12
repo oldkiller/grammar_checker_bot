@@ -19,19 +19,16 @@ def help(message):
 def test(message):
 	print("test")
 	param={"lang":"ru,en,uk", "text": message.text, "options":6}
-	print(param)
+	print(param, message)
 	corr = requests.post(url+"/checkText", data=param).json()
 	print(corr, len(corr))
 	if not corr: return
 	text=message.text
 	print(text)
-	for i in corr:
-		print(i)
-		# text.replace(corr["word"],corr["s"][0])
-	# bot.send_message(message.chat.id, text)
-	# for i in range(len(corr)):
-	# 	text.replace(corr[i]["word"],corr[i]["s"][0])
-	# bot.send_message(message.chat.id, text)
+	for cor in corr:
+		print(cor["word"],cor["s"][0])
+		text.replace(cor["word"],cor["s"][0])
+	bot.send_message(message.chat.id, text)
 
 @bot.message_handler(func=lambda message: True)
 def checker(message):
