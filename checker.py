@@ -15,6 +15,21 @@ def help(message):
 	print("test")
 	bot.send_message(message.chat.id, "Hello")
 
+@bot.message_handler(commands=["test"])
+def test(message):
+	print("test")
+	param={"lang":"ru,en,uk", "text": message.text, "options":6}
+	print(param)
+	corr = requests.post(url+"/checkText", data=param).json()
+	print(corr)
+	if not corr:
+		return
+	text=message.text
+	print(text)
+	for i in corr:
+		text.replace(corr["word"]," ".join(corr["s"]))
+	bot.send_message(message.chat.id, text)
+
 @bot.message_handler(func=lambda message: True)
 def checker(message):
 	param={"lang":"ru,en,uk", "text": message.text, "options":6}
