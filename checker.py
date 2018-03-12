@@ -62,6 +62,10 @@ def check_off(message):
 @bot.message_handler(func=lambda message: True)
 def checker(message):
 	if not isMyMessage(message.text): return
+	curs.execute("select * from chatsetting where chat=%s",
+				(message.chat.id,))
+	check=curs.fetchone()
+	if check: if not check[1]: return
 	param={"lang":"ru,en,uk", "text": message.text}
 	corr = requests.post(url+"/checkText", data=param).json()
 	if not corr: return
