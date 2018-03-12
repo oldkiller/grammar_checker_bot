@@ -18,7 +18,7 @@ def help(message):
 @bot.message_handler(commands=["test"])
 def test(message):
 	print("test")
-	param={"lang":"ru,en,uk", "text": message.text, "options":6}
+	param={"lang":"ru,en,uk", "text": message.text}
 	print(param, message)
 	corr = requests.post(url+"/checkText", data=param).json()
 	print(corr, len(corr))
