@@ -26,6 +26,9 @@ def test(message):
 	text=message.text
 	print(text)
 	for i in corr:
+		text.replace(corr["word"],corr["s"][0])
+	bot.send_message(message.chat.id, text)
+	for i in range(len(corr)):
 		text.replace(corr[i]["word"],corr[i]["s"][0])
 	bot.send_message(message.chat.id, text)
 
