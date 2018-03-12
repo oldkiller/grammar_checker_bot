@@ -10,6 +10,10 @@ bot = telebot.TeleBot(telegram_api)
 
 url = "https://speller.yandex.net/services/spellservice.json"
 
+@bot.message_handler(commands=["help"])
+def help(message):
+	bot.send_message(message.chat.id, "Hello")
+
 @bot.message_handler(func=lambda message: message.text != None)
 def checker(message):
 	param={"lang":"ru,en,uk", "text": message.text, "options":6}
