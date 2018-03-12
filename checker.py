@@ -28,8 +28,8 @@ def start(message):
 	curs.execute("insert into chatsetting values(%s,%s) " +
 		"on conflict(chat) do update set working=%s",
 		(message.chat.id,True,True))
-	text="Привет, теперь я буду следить за "+
-		"орфографическими ошибками в этом чате."
+	text="Привет, теперь я буду следить за \
+		орфографическими ошибками в этом чате."
 	bot.send_message(message.chat.id, text)
 
 @bot.message_handler(commands=["help"])
@@ -44,8 +44,8 @@ def help(message):
 @bot.message_handler(commands=["check_off"])
 def check_off(message):
 	if not isMyMessage(message.text): return
-	curs.execute("insert into chatsetting values(%s,%s) " +
-		"on conflict(chat) do update set working=%s",
+	curs.execute("insert into chatsetting values(%s,%s) \
+		on conflict(chat) do update set working=%s",
 		(message.chat.id,False,False))
 	text="Хорошо-хорошо, не смотрю. Пишите, как хотите."
 	bot.send_message(message.chat.id, text)
@@ -53,8 +53,8 @@ def check_off(message):
 @bot.message_handler(commands=["check_on"])
 def check_off(message):
 	if not isMyMessage(message.text): return
-	curs.execute("insert into chatsetting values(%s,%s) " +
-		"on conflict(chat) do update set working=%s",
+	curs.execute("insert into chatsetting values(%s,%s)\
+		on conflict(chat) do update set working=%s",
 		(message.chat.id,True,True))
 	text="Так, что тут у нас. Теперь я буду следить за вашей орфографией"
 	bot.send_message(message.chat.id, text)
@@ -65,7 +65,8 @@ def checker(message):
 	curs.execute("select * from chatsetting where chat=%s",
 				(message.chat.id,))
 	check=curs.fetchone()
-	if check: if not check[1]: return
+	if check: 
+		if not check[1]: return
 	param={"lang":"ru,en,uk", "text": message.text}
 	corr = requests.post(url+"/checkText", data=param).json()
 	if not corr: return
