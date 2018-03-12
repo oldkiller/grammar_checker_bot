@@ -33,12 +33,10 @@ def test(message):
 def checker(message):
 	param={"lang":"ru,en,uk", "text": message.text, "options":6}
 	corr = requests.post(url+"/checkText", data=param).json()
-	if not corr:
-		return
+	if not corr: return
 	text=message.text
-	print(text)
-	for i in corr:
-		text.replace(corr[0]["word"],corr[0]["s"][0])
+	for cor in corr:
+		text.replace(cor["word"],cor["s"][0])
 	bot.send_message(message.chat.id, text)
 
 #Дальнейший код используется для установки удаления вебхуков
