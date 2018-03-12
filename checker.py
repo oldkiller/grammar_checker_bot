@@ -21,7 +21,7 @@ def test(message):
 	param={"lang":"ru,en,uk", "text": message.text, "options":6}
 	print(param)
 	corr = requests.post(url+"/checkText", data=param).json()
-	print(corr, len(cor))
+	print(corr, len(corr))
 	if not corr: return
 	text=message.text
 	print(text)
