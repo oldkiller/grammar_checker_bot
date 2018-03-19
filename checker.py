@@ -61,19 +61,29 @@ def check_off(message):
 
 @bot.message_handler(func=lambda message: True)
 def checker(message):
-	if not isMyMessage(message.text): return
+	# Если в чате бот отключен: прервать выполнение
 	curs.execute("select * from chatsetting where chat=%s",
 				(message.chat.id,))
 	check=curs.fetchone()
 	if check: 
 		if not check[1]: return
+	
+	# Совершаем запрос на проверку сообщения
+	# Если исправлений нет: прервать выпонение
 	param={"lang":"ru,en,uk", "text": message.text}
 	corr = requests.post(url+"/checkText", data=param).json()
 	if not corr: return
-	text=message.text
-	for cor in corr:
-		text=text.replace(cor["word"],cor["s"][0])
-	bot.send_message(message.chat.id, text)
+
+	# Если исправлений мало: отправить только исправленые слова
+	# Иначе отправить все сообщение с исправлеными ошибками
+	if len(corr)<3:
+		text="* "+", ".join([ cor["s"][0] for cor in corr ])
+		bot.send_message(message.chat.id, text) 
+	else:
+		text=message.text
+		for cor in corr:
+			text=text.replace(cor["word"],cor["s"][0])
+		bot.send_message(message.chat.id, text)
 
 #Дальнейший код используется для установки удаления вебхуков
 server = Flask(__name__)
